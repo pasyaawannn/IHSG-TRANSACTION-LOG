@@ -12,8 +12,7 @@ Website ini membantu investor pemula maupun trader mencatat portfolio dengan leb
 
 ## 🌟 Demo Live
 
-[Cek Live Demo Website](https://username.github.io/IHSG-TRANSACTION-LOG)  
-*(Ganti link sesuai GitHub Pages project kamu)*
+[Cek Live Demo Website]()  
 
 ---
 
@@ -31,7 +30,7 @@ Website ini membantu investor pemula maupun trader mencatat portfolio dengan leb
 
 ## 🖼️ Screenshot
 
-![Dashboard Screenshot](https://via.placeholder.com/800x400.png?text=Dashboard+IHSG-TRANSACTION-LOG)
+![Dashboard Screenshot](https://github.com/pasyaawannn/IHSG-TRANSACTION-LOG/blob/main/IHSG%20Tracker.png)
 *Dashboard modern untuk memantau portfolio saham*
 
 ---

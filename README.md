@@ -81,7 +81,5 @@ Website ini dibuat sebagai latihan front-end sekaligus aplikasi sederhana untuk 
 
 ---
 
-## 👤 Author
-
-Dibuat oleh Pasya Awan Rizky Saputro (250202959)
-📍 Indonesia Stock Portfolio Tracker Project
+## 👨‍💻 Author
+Developed by Pasya 📌 Student Project | Stock Market & Web Development Enthusiast

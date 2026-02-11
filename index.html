@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDX Stock Tracker | Modern Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#0f172a] text-slate-200 font-['Inter'] antialiased">
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <header class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                    Indonesian Stock Tracker
+                </h1>
+                <p class="text-slate-400 text-sm">Monitor portofolio IHSG Anda secara real-time</p>
+            </div>
+            <div id="current-date" class="text-slate-400 font-medium"></div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <div class="stat-card p-6 rounded-2xl bg-slate-800/50 border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">Total Investasi</p>
+                <h2 id="total-invest" class="text-2xl font-bold">Rp 0</h2>
+            </div>
+            <div class="stat-card p-6 rounded-2xl bg-slate-800/50 border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">Total Profit/Loss</p>
+                <h2 id="total-pl" class="text-2xl font-bold">Rp 0</h2>
+            </div>
+            <div class="stat-card p-6 rounded-2xl bg-slate-800/50 border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">Saham di Hold</p>
+                <h2 id="hold-count" class="text-2xl font-bold">0</h2>
+            </div>
+            <div class="stat-card p-6 rounded-2xl bg-slate-800/50 border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase tracking-wider mb-2">Total Transaksi</p>
+                <h2 id="total-trx" class="text-2xl font-bold">0</h2>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1">
+                <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700 sticky top-8">
+                    <h3 class="text-lg font-semibold mb-6 flex items-center">
+                        <i data-lucide="plus-circle" class="mr-2 text-emerald-400"></i> Input Transaksi
+                    </h3>
+                    <form id="stock-form" class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Stock Code (e.g. BBCA)</label>
+                            <input type="text" id="code" required placeholder="BBCA" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none uppercase">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Buy Date</label>
+                                <input type="date" id="buyDate" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Buy Price</label>
+                                <input type="number" id="buyPrice" required placeholder="Harga Beli" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Lot Amount</label>
+                                <input type="number" id="lot" required placeholder="Jumlah Lot" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-slate-400 mb-1">Sell Price (Optional)</label>
+                                <input type="number" id="sellPrice" placeholder="Harga Jual" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition duration-300 shadow-lg shadow-emerald-500/20">
+                            Add Transaction
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+           <div class="lg:col-span-2 space-y-8">
+    <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700">
+        <h3 class="text-sm font-semibold mb-4 text-slate-400 uppercase tracking-widest">Portfolio Performance</h3>
+        <div class="h-[250px] w-full">
+            <canvas id="portfolioChart"></canvas>
+        </div>
+    </div>
+
+    <div class="bg-slate-800/40 rounded-2xl border border-slate-700 overflow-hidden">
+        </div>
+</div>
+                        <div class="flex gap-2">
+                            <button onclick="filterStocks('ALL')" class="px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-700 hover:bg-slate-600 transition">ALL</button>
+                            <button onclick="filterStocks('HOLD')" class="px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30">HOLD</button>
+                            <button onclick="filterStocks('SOLD')" class="px-4 py-1.5 rounded-full text-xs font-semibold bg-red-500/20 text-red-400 hover:bg-red-500/30">SOLD</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-900/50 text-slate-400 uppercase text-[10px] tracking-widest">
+                                <tr>
+                                    <th class="px-6 py-4">Stock</th>
+                                    <th class="px-6 py-4 text-center">Buy/Sell</th>
+                                    <th class="px-6 py-4 text-center">Status</th>
+                                    <th class="px-6 py-4 text-right">Profit/Loss</th>
+                                    <th class="px-6 py-4 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stock-list" class="divide-y divide-slate-700/50">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

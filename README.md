@@ -12,7 +12,7 @@ Website ini membantu investor pemula maupun trader mencatat portfolio dengan leb
 
 ## 🌟 Demo Live
 
-[Cek Live Demo Website]()  
+[Cek Live Demo Website](https://pasyaawannn.github.io/IHSG-TRANSACTION-LOG/)  
 
 ---
 
